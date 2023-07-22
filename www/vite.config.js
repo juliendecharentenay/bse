@@ -19,6 +19,10 @@ export default defineConfig({
     },
   },
   resolve: {
+    extensions: [
+      '.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json',
+      '.vue',
+    ],
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }

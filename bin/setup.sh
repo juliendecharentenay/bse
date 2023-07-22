@@ -1,14 +1,13 @@
 #!/bin/bash
 set -e
 
+./bin/extras.sh
+
 ( # Cognito
-  cd www/src/extras
-  [ ! -e "cognito-js" ] && git clone https://github.com/juliendecharentenay/cognito-js.git
   userPoolId=`aws ssm get-parameter --name "/dev/cognito/UserPoolId" | jq ".Parameter.Value" | sed -e 's/"//g'`
   clientId=`aws ssm get-parameter --name "/dev/cognito/ClientId" | jq ".Parameter.Value" | sed -e 's/"//g'`
-  sed -e "s@\${userPoolId\}@${userPoolId}@" cognito-js/cognito.config.template.js \
+  sed -e "s@\${userPoolId\}@${userPoolId}@" www/src/extras/extra-js-cognito/cognito.config.template.js \
   | sed -e "s@\${clientId}@${clientId}@" \
-  > cognito-js/cognito.config.js
-
+  > www/src/extras/extra-js-cognito/cognito.config.js
 )
 

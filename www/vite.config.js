@@ -15,7 +15,7 @@ export default defineConfig({
   server: {
     port: 8080,
     proxy: {
-      '/^api/': 'http://localhost:8010',
+      '^/api/': 'http://localhost:8010',
     },
   },
   resolve: {
@@ -33,6 +33,9 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'src/index.html'),
+        calculators: resolve(__dirname, 'src/calculators.html'),
+        uniclass: resolve(__dirname, 'src/uniclass.html'),
+        project: resolve(__dirname, 'src/project.html'),
       },
     },
   },

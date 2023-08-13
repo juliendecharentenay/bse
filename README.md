@@ -1,5 +1,5 @@
 # bse
-Building Services Engineering
+Building Physics Engineering
 
 ## Pre-requisites
 - AWS Cognito user pool setup with a client. User pool id stored in AWS SSM parameter store 

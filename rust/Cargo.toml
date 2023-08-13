@@ -1,0 +1,6 @@
+[workspace]
+members = [
+  "bse",
+  "initiate",
+  "serve",
+]

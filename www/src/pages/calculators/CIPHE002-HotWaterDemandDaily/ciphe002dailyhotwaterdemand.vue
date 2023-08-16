@@ -7,11 +7,11 @@
   unit="l/day"
   :uniclass="get_uniclass"
   >
-  <template #title>Daily Water Demand Calculator</template>
+  <template #title>Daily Hot Water Demand Calculator</template>
   <template #description>
     <div>
-    This daily water demand calculator is based on CIPHE Hot and Cold Water Supplies, Table 2 - Daily water demand: "For guidance
-    on the total water demand for typical types of buildings refer to Table 2 for daily water demand".
+    This daily hot water demand calculator is based on CIPHE Hot and Cold Water Supplies, Table 6 - Hot water demand. "The buildings
+    total daily hot water usage is relevant to the assessment of the peak demand."
     </div>
     <div class="mt-1">
     For a number of building type, CIPHE Hot and Cold Water Supplies provides guidances to estimate the quantity to be used 
@@ -24,11 +24,11 @@
 <script>
 import CalculatorComponent from "../components/calculatorcomponent.vue";
 import { get_version, get_items, get_demand, 
-       }                from "./calculator.js";
-import { uniclass_map } from "./uniclass.js";
+       }                 from "./calculator.js";
+import { uniclass_map }  from "./uniclass.js";
 
 export default {
-  name: "Ciphe001DailyWaterDemand",
+  name: "Ciphe002DailyHotWaterDemand",
   emits: [ 'back', 'error' ],
   components: {
     CalculatorComponent,

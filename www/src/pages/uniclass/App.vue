@@ -24,7 +24,9 @@
           <div>To:</div>
           <SelectComponent v-model="map">
             <option value="none"></option>
-            <option value="ciphe_dailywaterdemand">Daily Water Demand [CIPHE]</option>
+            <option value="dailywaterdemand_ciphe">Daily Water Demand [CIPHE]</option>
+            <option value="dailyhotwaterdemand_ciphe">Daily Hot Water Demand [CIPHE]</option>
+            <option value="storedhotwaterdemand_ciphe">Stored Hot Water Demand [CIPHE]</option>
           </SelectComponent>
         </div>
       </div>
@@ -66,6 +68,19 @@ import { en } from "@/lib/uniclass/uniclass.js";
 
 import { uniclass_map as uniclass_to_ciphe_dailywaterdemand } from "@/pages/calculators/CIPHE001-DailyWaterDemand/uniclass.js";
 import * as ciphe_dailywaterdemand from "@/pages/calculators/CIPHE001-DailyWaterDemand/calculator.js";
+import { uniclass_map as uniclass_to_ciphe_dailyhotwaterdemand } from "@/pages/calculators/CIPHE002-HotWaterDemandDaily/uniclass.js";
+import * as ciphe_dailyhotwaterdemand from "@/pages/calculators/CIPHE002-HotWaterDemandDaily/calculator.js";
+import { uniclass_map as uniclass_to_ciphe_storedhotwaterdemand } from "@/pages/calculators/CIPHE003-HotWaterDemandStored/uniclass.js";
+import * as ciphe_storedhotwaterdemand from "@/pages/calculators/CIPHE003-HotWaterDemandStored/calculator.js";
+
+import { Mapping } from "./js/mapping.js";
+
+const mappings = {
+  'none':                       new Mapping(),
+  'dailywaterdemand_ciphe':     new Mapping(uniclass_to_ciphe_dailywaterdemand, ciphe_dailywaterdemand.get_items),
+  'dailyhotwaterdemand_ciphe':  new Mapping(uniclass_to_ciphe_dailyhotwaterdemand, ciphe_dailyhotwaterdemand.get_items),
+  'storedhotwaterdemand_ciphe': new Mapping(uniclass_to_ciphe_storedhotwaterdemand, ciphe_storedhotwaterdemand.get_items),
+};
 
 export default {
   name: "App",
@@ -78,13 +93,6 @@ export default {
     uniclass_en: {
       default: en,
     },
-    ciphe_dailywaterdemand: {
-      default: {
-        uniclass_to: uniclass_to_ciphe_dailywaterdemand,
-        get_items: ciphe_dailywaterdemand.get_items,
-        get_version: ciphe_dailywaterdemand.get_version,
-      },
-    },
   },
   data: function() {
     return {
@@ -92,37 +100,23 @@ export default {
       error: null,
       root: [],
       // map: 'none',
-      map: 'ciphe_dailywaterdemand',
+      map: 'dailywaterdemand_ciphe',
     };
   },
   computed: {
     mapping: function() {
       try {
-        switch (this.map) {
-          case 'none': 
-            return () => null;
-          case 'ciphe_dailywaterdemand':
-            return (v) => {
-              try {
-                const uniclass_code_re = new RegExp(`^${v.code}`);
-                let ciphe_items = this.ciphe_dailywaterdemand
-                     .uniclass_to
-                     .filter(({code}) => uniclass_code_re.test(code))
-                     .map(({key}) => key)
-                     .filter((v, i, arr) => arr.indexOf(v) === i) // Keep only unqiue
-                     .map((key) => this.ciphe_dailywaterdemand
-                          .get_items()
-                          .find((i) => i.key === key))
-                     .filter((i) => i !== undefined);
-                if (ciphe_items.length === 0) { return null; }
-                return ciphe_items.map((i) => i.name);
-              } catch (e) {
-                this.on_error("Error in ciphy dailywaterdemand", e);
-              }
-              return null;
-            };
-          default:
-            throw new Error(`map ${this.map} is not supported`);
+        if (this.map in mappings) {
+          const map = mappings[this.map];
+          return (v) => { 
+            try {
+              return map.map(v.code);
+            } catch (e) {
+              this.on_error(`Error in mapping with key ${this.map}`, e);
+            }
+          };
+        } else {
+          throw new Error(`map ${this.map} is not supported`);
         }
       } catch (e) {
         this.on_error("Error in mapping", e);

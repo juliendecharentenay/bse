@@ -2,7 +2,7 @@
  * CIPHE Hot and Cold Water Supplies,
  * Table 2: Daily water demand
  */
-const table2 = [
+const table = [
   {key:'ciphe_dwd_010', name: 'Dwellings, 1 bedroom', use: 210, unit: 'Bedroom'},
   {key:'ciphe_dwd_011', name: 'Dwellings, 2 bedroom', use: 130, unit: 'Bedroom'},
   {key:'ciphe_dwd_012', name: 'Dwellings, 3+ bedrooms', use: 100, unit: 'Bedroom'},
@@ -55,11 +55,11 @@ const table2 = [
 ];
 
 export function get_items() {
-  return table2.map(({key, name, use, unit}) => ({key, name, unit}));
+  return table.map(({key, name, use, unit}) => ({key, name, unit}));
 }
 
 export function get_demand(key, quantity) {
-  const e = table2.find(e => e.key === key);
+  const e = table.find(e => e.key === key);
   if (e === undefined) { throw new Error(`Item with key {key} does not exist`); }
   return quantity * e.use;
 }

@@ -15,7 +15,10 @@
   </NavbarComponent>
 
   <div v-if="view === '#ciphe001'"><Ciphe001DailyWaterDemand @back="view = '#';" @error="({msg, e}) => {on_error(msg, e);}" /></div>
-  <div class="py-10 text-gray-700" v-else>
+  <div v-else-if="view === '#ciphe002'"><Ciphe002DailyHotWaterDemand @back="view = '#';" @error="({msg, e}) => {on_error(msg, e);}" /></div>
+  <div v-else-if="view === '#ciphe003'"><Ciphe003StoredHotWaterDemand @back="view = '#';" @error="({msg, e}) => {on_error(msg, e);}" /></div>
+  <div v-else
+       class="py-10 text-gray-700">
     <header>
       <div class="mx-auto max-w-5xl text-center">
         <h1 class="text-3xl font-bold leading-tight tracking-tight text-gray-900">
@@ -25,6 +28,8 @@
     </header>
     <main class="mt-6 px-2 mx-auto max-w-7xl grid grid-cols-3 gap-4">
       <a href="#ciphe001" @click="view = '#ciphe001';"><Ciphe001DailyWaterDemandCard /></a>
+      <a href="#ciphe002" @click="view = '#ciphe002';"><Ciphe002DailyHotWaterDemandCard /></a>
+      <a href="#ciphe003" @click="view = '#ciphe003';"><Ciphe003StoredHotWaterDemandCard /></a>
     </main>
   </div>
 
@@ -45,8 +50,12 @@ import NavbarMobileActionItem from "@/extras/extra-vue-ui/navbar/navbarmobileact
 import ModalNotification from "@/extras/extra-vue-ui/modal/modalnotification.vue";
 import ModalError from "@/extras/extra-vue-ui/modal/modalerror.vue";
 // import CardComponent from "@/extras/extra-vue-ui/cards/cardcomponent.vue";
-import Ciphe001DailyWaterDemandCard from "@/pages/calculators/CIPHE001-DailyWaterDemand/ciphe001dailywaterdemandcard.vue";
-import Ciphe001DailyWaterDemand     from "@/pages/calculators/CIPHE001-DailyWaterDemand/ciphe001dailywaterdemand.vue";
+import Ciphe001DailyWaterDemandCard     from "@/pages/calculators/CIPHE001-DailyWaterDemand/ciphe001dailywaterdemandcard.vue";
+import Ciphe001DailyWaterDemand         from "@/pages/calculators/CIPHE001-DailyWaterDemand/ciphe001dailywaterdemand.vue";
+import Ciphe002DailyHotWaterDemandCard  from "@/pages/calculators/CIPHE002-HotWaterDemandDaily/ciphe002dailyhotwaterdemandcard.vue";
+import Ciphe002DailyHotWaterDemand      from "@/pages/calculators/CIPHE002-HotWaterDemandDaily/ciphe002dailyhotwaterdemand.vue";
+import Ciphe003StoredHotWaterDemandCard from "@/pages/calculators/CIPHE003-HotWaterDemandStored/ciphe003storedhotwaterdemandcard.vue";
+import Ciphe003StoredHotWaterDemand     from "@/pages/calculators/CIPHE003-HotWaterDemandStored/ciphe003storedhotwaterdemand.vue";
 
 import { HomeIcon, FolderIcon, } from "@heroicons/vue/24/outline";
 
@@ -58,6 +67,8 @@ export default {
     // CardComponent,
     HomeIcon, FolderIcon,
     Ciphe001DailyWaterDemandCard, Ciphe001DailyWaterDemand,
+    Ciphe002DailyHotWaterDemandCard, Ciphe002DailyHotWaterDemand,
+    Ciphe003StoredHotWaterDemandCard, Ciphe003StoredHotWaterDemand,
   },
   data: function() {
     return {
